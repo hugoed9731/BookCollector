@@ -1,0 +1,24 @@
+    Map.Entry: Map.Entry es una interfaz que representa un par clave-valor en un mapa (Map).
+         En este caso, la clave es de tipo Integer y el valor es de tipo Book.
+         entry es la variable que usamos para acceder a cada entrada durante la iteración del bucle.
+      bookCollection.entrySet():
+        bookCollection.entrySet() devuelve un conjunto (Set) de todas las entradas en el LinkedHashMap.
+        Cada entrada es un objeto Map.Entry.
+
+        Un conjunto (Set) es una colección que no permite elementos duplicados.
+         En este caso, el tipo de conjunto que devuelve entrySet() es un conjunto de Map.Entry,
+         donde cada Map.Entry representa un par clave-valor en el mapa (Map).
+
+         CONTINUE EN EL METODO ADDBOOK
+         La instrucción continue se utiliza para saltar al inicio del bucle más cercano.
+         En este caso, el continue se encuentra dentro de un bloque if, por lo que si se cumple la condición (bookExists(title) devuelve true,
+         lo que indica que el título ya existe en la colección), la ejecución del código saltará directamente al inicio del bucle do-while más cercano.
+
+         En resumen, cuando bookExists(title) es true, la línea continue; provoca que el programa regrese al inicio del bucle do-while, evitando que
+          se continúe con la lógica restante dentro del bucle y permitiendo al usuario ingresar otro título sin ejecutar el resto de
+          las instrucciones dentro del bucle para ese ciclo. Esto ayuda a evitar que se agreguen títulos duplicados a la colección.
+
+          EXPLICACIÓN DE LA MANERA EN COMO RECORREMOS LinkedHashMap
+          Map.Entry es una interfaz que representa un par clave-valor en un mapa
+          contacts.entrySet(): Esto devuelve un conjunto (Set) que contiene los pares clave-valor (representados como objetos Map.Entry) en el HashMap contacts.
+          El método entrySet() devuelve un conjunto de entradas del mapa, que luego podemos recorrer utilizando un bucle forEach.
