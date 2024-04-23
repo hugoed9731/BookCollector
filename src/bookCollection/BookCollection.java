@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class BookCollection {
-  // Attributes
   private static Map<Integer, Book> bookCollection = new LinkedHashMap<>();
 
   private static int bookId = 1;
@@ -45,7 +44,7 @@ public class BookCollection {
     String author;
     String editorial;
     boolean onlyVolume;
-    int totalOfVolumes = 0;
+    int totalOfVolumes;
     int volume = 0;
 
     do {
@@ -235,6 +234,47 @@ public class BookCollection {
         }
 
     }
+  }
+// TODO - MODIFY THE SYSTEM OUT PRINT TO THE OTHER INDEX NUMBER WHEN WE SHOW THE TOTAL COLLECTION
+  public static void deleteBook(Scanner input) {
+    if(Util.emptyCollection(bookCollection)) {
+      System.out.println("Your collection is empty!");
+    } else {
+      System.out.println("Welcome to your collection!");
+      for (Map.Entry<Integer, Book> entry : bookCollection.entrySet()) {
+        Integer index = entry.getKey();
+        String title = entry.getValue().getTitle();
+        Genre genre = entry.getValue().getGenre();
+        String author = entry.getValue().getAuthor();
+        String editorial = entry.getValue().getEditorial();
+        int totalOfVolumes = entry.getValue().gettotalOfvolumes();
+        int volume = entry.getValue().getVolume();
+        String readIt = entry.getValue().toString();
+
+        System.out.println("-----(" + index + ")-----");
+        System.out.println("Title: " + title);
+        System.out.println("Author: " + author);
+        System.out.println("Genre: " + genre);
+        System.out.println("Editorial: " + editorial);
+        System.out.println("Volume " + volume + " of " + totalOfVolumes);
+        System.out.println(readIt);
+        System.out.println("------ 🐱‍👤 ------");
+      }
+
+      input.nextLine();
+      int bookSelected = Integer.parseInt(Util.validateInput(input, "What book you'd like to delete. Type the number: ", "[1-9]\\d*"));
+
+      do{
+        if(!bookExistsByKey(bookSelected)) {
+          bookSelected = Integer.parseInt(Util.validateInput(input, "Error type a valid number: ", "[1-9]\\d*"));
+
+        }
+      }while(!bookExistsByKey(bookSelected));
+
+      bookCollection.remove(bookSelected);
+      System.out.println("Book deleted successfully!");
+
+      }
   }
 
 
