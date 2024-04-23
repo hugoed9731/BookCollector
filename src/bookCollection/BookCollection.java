@@ -3,6 +3,7 @@ package bookCollection;
 import enums.Genre;
 import model.Book;
 
+import java.util.InputMismatchException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -18,9 +19,19 @@ public class BookCollection {
     bookCollection = new LinkedHashMap<Integer, Book>();
   }
 
+  // TODO: move these methods to util class - 18/04/2024 - HUGOEDD
   public static boolean bookExists(String title) {
     for (Map.Entry<Integer, Book> entry : bookCollection.entrySet()) {
       if (entry.getValue().getTitle().equalsIgnoreCase(title)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public static boolean bookExistsByKey(int bookSelected) {
+    for (Map.Entry<Integer, Book> entry : bookCollection.entrySet()) {
+      if (entry.getKey().equals(bookSelected)) {
         return true;
       }
     }
@@ -41,10 +52,6 @@ public class BookCollection {
       input.nextLine();
 
       title = Util.validateInput(input, "Type the title: ", "[a-zA-Z\\s,.\\-'']+");
-
-      /*do {
-        title = Util.notAllowEmptyInput(input, "Type the title: ");
-      } while (!title.matches("[a-zA-Z\\s,.\\-'']+"));*/
 
       if(bookExists(title)){
         System.out.println("The book already exists in the collection. Please enter another title.");
@@ -123,60 +130,109 @@ public class BookCollection {
         System.out.println("------ 🐱‍👤 ------");
       }
 
-      // TODO validar esto que no funciona
-      boolean bookFound = false;
-      int bookSelected = 0;
+        input.nextLine();
+      int bookSelected = Integer.parseInt(Util.validateInput(input, "What book you'd like to edit. Type the number: ", "[1-9]\\d*"));
 
       do {
-        input.nextLine();
-        bookSelected = Integer.parseInt(Util.validateInput(input, "What book you'd like to edit. Type the number: ", "[1-9]\\d*"));
-
-        System.out.println("Valio verga apaaaa");
-
-        if(bookSelected > bookCollection.size()) {
-          System.out.println("Type a valid number of your collection: ");
-          continue;
-        }
+          if(bookSelected > bookCollection.size()) {
+            bookSelected = Integer.parseInt(Util.validateInput(input, "Type a valid number of your collection:: ", "[1-9]\\d*"));
+          }
 
         // Integer.valueOf() para convertir la cadena devuelta por Util.validateInput(...) en un número entero.
-        for (Map.Entry<Integer, Book> entry : bookCollection.entrySet()) {
-          if (entry.getKey().equals(bookSelected)) {
-            bookFound = true;
-            break;
-          }
-        }
-
-        if (!bookFound) {
-          System.out.println("Book has not been found!");
-        }
-
       } while(bookSelected > bookCollection.size());
 
 
-      if (bookFound) {
+        if(bookExistsByKey(bookSelected)) {
 
-        int optionSelected;
+          Book item = bookCollection.get(bookSelected);
+          int optionSelected;
 
-        do{
-          System.out.println("What would you like to edit: ");
-          System.out.println("1.-Title ");
-          System.out.println("2.-Genre ");
-          System.out.println("3.-Author ");
-          System.out.println("4.-Editorial ");
-          System.out.println("5.-Total of volumes ");
-          System.out.println("6.-Volume ");
+          do{
 
-          System.out.println("Type an option: ");
-          optionSelected = input.nextInt();
-        } while (optionSelected != 8);
+            System.out.println("What would you like to edit: ");
+            System.out.println("1.-Title ");
+            System.out.println("2.-Genre ");
+            System.out.println("3.-Author ");
+            System.out.println("4.-Editorial ");
+            System.out.println("5.-Total of volumes ");
+            System.out.println("6.-Volume ");
+            System.out.println("7.-Exit");
 
-        switch (optionSelected) {
-          case 1:
-          default:
-            break;
+            System.out.println("Type an option: ");
+            optionSelected = input.nextInt();
+
+            try{
+              input.nextLine();
+
+              switch (optionSelected) {
+                case 1:
+                  System.out.println("Current Title: " + item.getTitle());
+                  String newTitle = Util.validateInput(input, "Type the new title: ", "[a-zA-Z\\s,.\\-'']+");
+                  item.setTitle(newTitle);
+                  System.out.println("Title edited successfully");
+                  break;
+                case 2:
+                  System.out.println("Current Genre: " + item.getGenre());
+                  Genre newGenre = Util.selectGenre(input);
+                  item.setGenre(newGenre);
+                  System.out.println("Genre edited successfully");
+                  break;
+                case 3:
+                  System.out.println("Current Author: " + item.getAuthor());
+                  String newAuthor = Util.validateInput(input, "Type the new author: ", "[a-zA-Z\\s,.\\-'']+");
+                  item.setAuthor(newAuthor);
+                  System.out.println("Author edited successfully");
+                  break;
+                case 4:
+                  System.out.println("Current Editorial: " + item.getEditorial());
+                  String newEditorial = Util.validateInput(input, "Type the new editorial: ", "[a-zA-Z\\s,.\\-'']+");
+                  item.setEditorial(newEditorial);
+                  System.out.println("Editorial edited successfully");
+                  break;
+                case 5:
+                  System.out.println("Current Total of volumes: " + item.gettotalOfvolumes());
+                  int newTotalOfVolumes = Integer.parseInt(Util.validateInput(input, "How many volumes are there? ", "[1-9]\\d*"));
+
+                  item.settotalOfvolumes(newTotalOfVolumes);
+                  System.out.println("Total of volumes edited successfully");
+                  break;
+                case 6:
+                  System.out.println("Current volume of this book: " + item.getVolume());
+
+                  int newNumberOfvolume = Integer.parseInt(Util.validateInput(input, "What is the new number of volume? ", "[1-9]\\d*"));
+
+                    do {
+                      if(newNumberOfvolume > item.gettotalOfvolumes()) {
+                        newNumberOfvolume = Integer.parseInt(Util.validateInput(input, "Volume number is larger than the collection. Type a valid one:  ", "[1-9]\\d*"));
+                      }
+                    } while (newNumberOfvolume > item.gettotalOfvolumes());
+
+                 item.setVolume(newNumberOfvolume);
+                 System.out.println("Volume edited successfully");
+                  break;
+                case 7:
+                  System.out.println("See you soon!");
+                  return;
+                default:
+                  break;
+              }
+
+              System.out.println(); // Space so that menu looks better
+
+            } catch(InputMismatchException e) {
+              System.out.println("Error: Please type a valid option.");
+              input.nextLine();
+
+              optionSelected = 0;
+            }
+
+          } while (optionSelected != 8);
+
+
+        } else {
+          System.out.println("Book has not been found!");
+
         }
-
-      }
 
     }
   }
