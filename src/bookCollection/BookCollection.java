@@ -3,6 +3,7 @@ package bookCollection;
 import enums.Genre;
 import model.Book;
 
+import java.net.Socket;
 import java.util.InputMismatchException;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -31,6 +32,23 @@ public class BookCollection {
   public static boolean bookExistsByKey(int bookSelected) {
     for (Map.Entry<Integer, Book> entry : bookCollection.entrySet()) {
       if (entry.getKey().equals(bookSelected)) {
+        return true;
+      }
+    }
+    return false;
+  }
+  public static boolean searchByAuthor(String author) {
+    for (Map.Entry<Integer, Book> entry : bookCollection.entrySet()) {
+      if (entry.getValue().getAuthor().equalsIgnoreCase(author)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public static boolean searchByTitle(String title) {
+    for (Map.Entry<Integer, Book> entry : bookCollection.entrySet()) {
+      if (entry.getValue().getTitle().equalsIgnoreCase(title)) {
         return true;
       }
     }
@@ -119,7 +137,7 @@ public class BookCollection {
         int volume = entry.getValue().getVolume();
         String readIt = entry.getValue().toString();
 
-        System.out.println("(" + index + ")");
+        System.out.println("------(" + index + ")------");
         System.out.println("Title: " + title);
         System.out.println("Author: " + author);
         System.out.println("Genre: " + genre);
@@ -145,7 +163,7 @@ public class BookCollection {
 
           Book item = bookCollection.get(bookSelected);
           int optionSelected;
-
+          // TODO - CHECK THE FUNCTIONALTITY OF THIS LOOP - 23-04-2024 - HUGOEDD
           do{
 
             System.out.println("What would you like to edit: ");
@@ -210,7 +228,7 @@ public class BookCollection {
                  System.out.println("Volume edited successfully");
                   break;
                 case 7:
-                  System.out.println("See you soon!");
+                  System.out.println("Exiting of editing!");
                   return;
                 default:
                   break;
@@ -225,7 +243,7 @@ public class BookCollection {
               optionSelected = 0;
             }
 
-          } while (optionSelected != 8);
+          } while (optionSelected != 7);
 
 
         } else {
@@ -235,7 +253,6 @@ public class BookCollection {
 
     }
   }
-// TODO - MODIFY THE SYSTEM OUT PRINT TO THE OTHER INDEX NUMBER WHEN WE SHOW THE TOTAL COLLECTION
   public static void deleteBook(Scanner input) {
     if(Util.emptyCollection(bookCollection)) {
       System.out.println("Your collection is empty!");
@@ -251,7 +268,7 @@ public class BookCollection {
         int volume = entry.getValue().getVolume();
         String readIt = entry.getValue().toString();
 
-        System.out.println("-----(" + index + ")-----");
+        System.out.println("------(" + index + ")------");
         System.out.println("Title: " + title);
         System.out.println("Author: " + author);
         System.out.println("Genre: " + genre);
@@ -293,7 +310,7 @@ public class BookCollection {
         int volume = entry.getValue().getVolume();
         String readIt = entry.getValue().toString();
 
-        System.out.println("(" + index + ")");
+        System.out.println("------(" + index + ")------");
         System.out.println("Title: " + title);
         System.out.println("Author: " + author);
         System.out.println("Genre: " + genre);
@@ -303,9 +320,140 @@ public class BookCollection {
         System.out.println("------ 🐱‍👤 ------");
       }
     }
-
   }
 
+  public static void searchBook(Scanner input) {
+    if(Util.emptyCollection(bookCollection)) {
+      System.out.println("Your collection is empty!");
+    } else {
+      int optionSelected;
+      do {
+        System.out.println("Would you like to search by: ");
+        System.out.println("1.- Author");
+        System.out.println("2.- Title");
+        System.out.println("3.- Read");
+        System.out.println("4.- No read");
+        System.out.println("5.- Exit");
 
+        System.out.println("Please select type an option: ");
+        optionSelected = input.nextInt();
+
+        try{
+          input.nextLine();
+
+          switch (optionSelected) {
+            case 1:
+              String searchAuthor = Util.validateInput(input, "Type the name of the Author:  ", "[a-zA-Z\\s,.\\-'']+");
+
+              if (searchByAuthor(searchAuthor)) {
+                for (Map.Entry<Integer, Book> entry : bookCollection.entrySet()) {
+                  Book book = entry.getValue();
+
+                  if (entry.getValue().getAuthor().equalsIgnoreCase(searchAuthor)) {
+                    Integer index = entry.getKey();
+
+                    System.out.println("------(" + index + ")------");
+                    System.out.println("Title: " + book.getTitle());
+                    System.out.println("Author: " + book.getAuthor());
+                    System.out.println("Genre: " + book.getGenre());
+                    System.out.println("Editorial: " + book.getEditorial());
+                    System.out.println("Volume " + book.getVolume() + " of " + book.gettotalOfvolumes());
+                    System.out.println(book.isReadIt());
+                    System.out.println("------ 🐱‍👤 ------");
+                  }
+                }
+                break;
+              } else {
+                System.out.println("This Author does not exist in your collection");
+                break;
+              }
+
+            case 2:
+              String searchTitle = Util.validateInput(input, "Type the title:  ", "[a-zA-Z\\s,.\\-'']+");
+
+              if (searchByTitle(searchTitle)) {
+                for (Map.Entry<Integer, Book> entry : bookCollection.entrySet()) {
+                  Book book = entry.getValue();
+
+                  if (entry.getValue().getTitle().equalsIgnoreCase(searchTitle)) {
+                    Integer index = entry.getKey();
+
+                    System.out.println("------(" + index + ")------");
+                    System.out.println("Title: " + book.getTitle());
+                    System.out.println("Author: " + book.getAuthor());
+                    System.out.println("Genre: " + book.getGenre());
+                    System.out.println("Editorial: " + book.getEditorial());
+                    System.out.println("Volume " + book.getVolume() + " of " + book.gettotalOfvolumes());
+                    System.out.println(book.isReadIt());
+                    System.out.println("------ 🐱‍👤 ------");
+                  }
+                }
+                break;
+              } else {
+                System.out.println("This title does not exist in your collection");
+                break;
+              }
+              // TODO - Complete these scenarios - 25/04/2024 - HUGOEDD
+            case 3:
+              System.out.println("Show as read");
+              break;
+            case 4:
+              System.out.println("Show the as no read");
+              break;
+
+              case 5:
+              System.out.println("Exiting of the searching!");
+              return;
+            default:
+              break;
+          }
+          System.out.println();
+
+        }catch(InputMismatchException e) {
+          System.out.println("Error: Please type a valid option.");
+          input.nextLine();
+          optionSelected = 0;
+        }
+      } while(optionSelected != 5);
+    }
+  }
+
+  public static void markAsRead(Scanner input) {
+    if(Util.emptyCollection(bookCollection)) {
+      System.out.println("Your collection is empty!");
+    } else {
+
+      System.out.println("Welcome to your collection!");
+      for (Map.Entry<Integer, Book> entry : bookCollection.entrySet()) {
+        Book book = entry.getValue();
+
+        Integer index = entry.getKey();
+
+        System.out.println("------(" + index + ")------");
+        System.out.println("Title: " + book.getTitle());
+        System.out.println("Author: " + book.getAuthor());
+        System.out.println("Genre: " + book.getGenre());
+        System.out.println("Editorial: " + book.getEditorial());
+        System.out.println("Volume " + book.getVolume() + " of " + book.gettotalOfvolumes());
+        System.out.println(book.isReadIt());
+        System.out.println("------ 🐱‍👤 ------");
+      }
+
+      input.nextLine();
+      int bookSelected = Integer.parseInt(Util.validateInput(input, "What book you would like to mark as read. Type one: ", "[1-9]\\d*"));
+
+
+      do{
+        if(!bookExistsByKey(bookSelected)) {
+          bookSelected = Integer.parseInt(Util.validateInput(input, "Error type a valid number: ", "[1-9]\\d*"));
+        }
+      }while(!bookExistsByKey(bookSelected));
+
+      Book item = bookCollection.get(bookSelected);
+      item.setReadIt(true);
+
+      System.out.println("'" + item.getTitle() + "'" + " mark as read successfully!");
+    }
+  }
 
 }

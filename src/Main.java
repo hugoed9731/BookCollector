@@ -18,7 +18,7 @@ public class Main {
 
         } while (!name.matches("[a-zA-Z]+"));
 
-
+        // TODO - CHECK THE FUNCTIONALTITY OF THIS LOOP - 23-04-2024 - HUGOEDD
         do {
             try{
                 System.out.println("Hello " + name);
@@ -47,6 +47,12 @@ public class Main {
                         BookCollection.showMyCollection();
                         break;
                     case 5:
+                        BookCollection.searchBook(sc);
+                        break;
+                    case 6:
+                        BookCollection.markAsRead(sc);
+                        break;
+                    case 7:
                         sc.close();
                         System.exit(0);
                         break;
