@@ -18,7 +18,7 @@ public class Main {
 
         } while (!name.matches("[a-zA-Z]+"));
 
-
+        // TODO - CHECK THE FUNCTIONALTITY OF THIS LOOP - 23-04-2024 - HUGOEDD
         do {
             try{
                 System.out.println("Hello " + name);
@@ -41,12 +41,20 @@ public class Main {
                         BookCollection.editBook(sc);
                         break;
                     case 3:
-                        System.out.println("See you later!");
-                        sc.close();
-                        System.exit(0);
+                        BookCollection.deleteBook(sc);
                         break;
                     case 4:
                         BookCollection.showMyCollection();
+                        break;
+                    case 5:
+                        BookCollection.searchBook(sc);
+                        break;
+                    case 6:
+                        BookCollection.markAsRead(sc);
+                        break;
+                    case 7:
+                        sc.close();
+                        System.exit(0);
                         break;
                     default:
                         System.out.println("Please type a valid number");
