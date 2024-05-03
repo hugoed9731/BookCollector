@@ -143,7 +143,7 @@ public class Util {
             System.out.print("Type the title: ");
             newTitle = input.nextLine().trim();
 
-            if (!newTitle.matches("[a-zA-Z\\s,.\\-'']+")) {
+            if (!newTitle.matches("[a-zA-Z\\s,.\\-']+")) {
                 System.out.println("Invalid input. Title can only contain letters, spaces, commas, periods, hyphens, and apostrophes.");
             } else if (bookExists(newTitle, bookCollection)) {
                 System.out.println("The title already exists in the collection. Type a new one.");
