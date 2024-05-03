@@ -9,7 +9,6 @@ public class Book {
     private String editorial;
     private int totalOfvolumes;
     private int volume;
-    private boolean isInTheCollection;
     private boolean readIt;
 
     public Book(String title, Genre genre, String author, String editorial, int totalOfvolumes, int volume){
@@ -19,7 +18,6 @@ public class Book {
         this.editorial = editorial;
         this.totalOfvolumes = totalOfvolumes;
         this.volume = volume;
-        this.isInTheCollection = false;
         this.readIt = false;
     }
 
@@ -72,14 +70,6 @@ public class Book {
 
     public void setVolume(int volume) {
         this.volume = volume;
-    }
-
-    public boolean isInTheCollection() {
-        return isInTheCollection;
-    }
-
-    public void setInTheCollection(boolean inTheCollection) {
-        isInTheCollection = inTheCollection;
     }
 
     public boolean isReadIt() {

@@ -7,7 +7,13 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class Util {
-
+    //import static com.example.BookCollection.bookCollection;
+    // Podriamos usarlo asi, pero
+    /*Esta forma de importar estáticamente es útil cuando deseas utilizar campos estáticos de otra clase sin
+     tener que calificarlos repetidamente. Sin embargo, es importante tener en cuenta que el uso excesivo de
+      importaciones estáticas puede hacer que tu código sea menos legible, así que
+    úsalo con moderación y asegúrate de que sea claro desde dónde provienen los campos y métodos que
+    estás utilizando.*/
     public static String notAllowEmptyInput(Scanner sc, String message) {
         String input;
         do {
@@ -71,13 +77,85 @@ public class Util {
         return selectGenre;
     }
 
-    public static boolean emptyCollection(Map<Integer, Book> collection) {
+    public static boolean emptyCollection(Map<Integer, Book> bookCollection) {
+        return bookCollection.isEmpty();
+    }
 
-        if(collection.isEmpty()) {
-            return true;
+    public static void showBooks(Map<Integer, Book> bookCollection) {
+        System.out.println("Welcome to your collection!");
+
+        for (Map.Entry<Integer, Book> entry : bookCollection.entrySet()) {
+                Book book = entry.getValue();
+
+                System.out.println("------(" + entry.getKey() + ")------");
+                System.out.println("Title: " + book.getTitle());
+                System.out.println("Author: " + book.getAuthor());
+                System.out.println("Genre: " + book.getGenre());
+                System.out.println("Editorial: " + book.getEditorial());
+                System.out.println("Volume " + book.getVolume() + " of " + book.gettotalOfvolumes());
+                System.out.println(book);
+                System.out.println("------ 🐱‍👤 ------");
+
         }
+    }
 
+
+
+    public static boolean bookExists(String title, Map<Integer, Book> bookCollection) {
+        for(Map.Entry<Integer, Book> entry : bookCollection.entrySet()) {
+            if(entry.getValue().getTitle().equalsIgnoreCase(title)) return true;
+        }
         return false;
     }
+
+    public static boolean bookExistsByKey(int bookSelected, Map<Integer, Book> bookCollection) {
+        for (Map.Entry<Integer, Book> entry : bookCollection.entrySet()) {
+            if (entry.getKey().equals(bookSelected)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean searchByAuthor(String author, Map<Integer, Book> bookCollection) {
+        for (Map.Entry<Integer, Book> entry : bookCollection.entrySet()) {
+            if (entry.getValue().getAuthor().equalsIgnoreCase(author)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean searchByTitle(String title, Map<Integer, Book> bookCollection ) {
+        for (Map.Entry<Integer, Book> entry : bookCollection.entrySet()) {
+            if (entry.getValue().getTitle().equalsIgnoreCase(title)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static String validateAndSetBookTitle(Scanner input, Map<Integer, Book> bookCollection) {
+        String newTitle;
+        boolean isValidTitle = false;
+
+        do {
+            System.out.print("Type the title: ");
+            newTitle = input.nextLine().trim();
+
+            if (!newTitle.matches("[a-zA-Z\\s,.\\-']+")) {
+                System.out.println("Invalid input. Title can only contain letters, spaces, commas, periods, hyphens, and apostrophes.");
+            } else if (bookExists(newTitle, bookCollection)) {
+                System.out.println("The title already exists in the collection. Type a new one.");
+            } else {
+                isValidTitle = true;
+            }
+        } while (!isValidTitle);
+
+        return newTitle;
+    }
+
+
+
 
 }

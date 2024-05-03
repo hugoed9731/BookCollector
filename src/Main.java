@@ -1,8 +1,8 @@
 import bookCollection.BookCollection;
-import bookCollection.Util;
-
 import java.util.InputMismatchException;
 import java.util.Scanner;
+
+import static bookCollection.Util.validateInput;
 
 public class Main {
     public static void main(String[] args) {
@@ -12,13 +12,8 @@ public class Main {
         String name;
 
         System.out.println("Welcome to the MangaBook!");
+        name = validateInput(sc, "Please type your name: ", "[a-zA-Z\\s,.\\-'']+");
 
-        do {
-            name = Util.notAllowEmptyInput(sc, "Please type your name: ");
-
-        } while (!name.matches("[a-zA-Z]+"));
-
-        // TODO - CHECK THE FUNCTIONALTITY OF THIS LOOP - 23-04-2024 - HUGOEDD
         do {
             try{
                 System.out.println("Hello " + name);
@@ -53,6 +48,7 @@ public class Main {
                         BookCollection.markAsRead(sc);
                         break;
                     case 7:
+                        System.out.println("See you next time!");
                         sc.close();
                         System.exit(0);
                         break;
@@ -66,9 +62,9 @@ public class Main {
                 System.out.println("Error: Please type a valid number.");
                 sc.nextLine(); // Cleaning the Java Buffer
 
-                menuOption = 0;
+                //menuOption = 0;
             }
-        } while (menuOption != 8);
+        } while (true);
 
 
     }

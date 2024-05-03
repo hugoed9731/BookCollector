@@ -22,3 +22,6 @@
           Map.Entry es una interfaz que representa un par clave-valor en un mapa
           contacts.entrySet(): Esto devuelve un conjunto (Set) que contiene los pares clave-valor (representados como objetos Map.Entry) en el HashMap contacts.
           El método entrySet() devuelve un conjunto de entradas del mapa, que luego podemos recorrer utilizando un bucle forEach.
+
+          Por lo tanto, entry.getValue() en el código se refiere al objeto Book asociado con la clave actual en la iteración del bucle. Esto te permite acceder a los métodos y atributos del objeto Book, como getTitle(), getAuthor(), getGenre(), getEditorial(), getVolume(), gettotalOfvolumes(), etc.
+           El código imprime la información de cada libro en bookCollection.
