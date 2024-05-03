@@ -16,8 +16,6 @@ public class Main {
         System.out.println("Welcome to the MangaBook!");
         name = validateInput(sc, "Please type your name: ", "[a-zA-Z\\s,.\\-'']+");
 
-
-        // TODO - CHECK THE FUNCTIONALTITY OF THIS LOOP - 23-04-2024 - HUGOEDD
         do {
             try{
                 System.out.println("Hello " + name);
@@ -66,9 +64,9 @@ public class Main {
                 System.out.println("Error: Please type a valid number.");
                 sc.nextLine(); // Cleaning the Java Buffer
 
-                menuOption = 0;
+                //menuOption = 0;
             }
-        } while (menuOption != 8);
+        } while (true);
 
 
     }
